@@ -800,6 +800,11 @@
   // ── Render Everything ──────────────────────────────────────────────────────
 
   function render(data) {
+    // Emit before:render hook
+    if (window.AEL?.events) {
+      window.AEL.events.emit('before:render', { data });
+    }
+
     const main = document.getElementById("mainContent");
     if (!main) {
       console.error("AEL Engine: #mainContent container not found.");
@@ -824,6 +829,11 @@
     updateScrollProgress();
     updateBackToTop();
 
+    // Emit after:render hook
+    if (window.AEL?.events) {
+      window.AEL.events.emit('after:render', { data, timestamp: Date.now() });
+    }
+
     // Restore hashes
     requestAnimationFrame(() => {
       scrollToHash();
@@ -834,12 +844,31 @@
 
   async function init() {
     try {
+      // Emit before:init hook
+      if (window.AEL?.events) {
+        window.AEL.events.emit('before:init', { timestamp: Date.now() });
+      }
+
       const res = await fetch(DATA_URL);
       if (!res.ok) throw new Error(`Failed to load data: ${res.status}`);
       DATA = await res.json();
+
+      // Emit on:data:load hook
+      if (window.AEL?.events) {
+        window.AEL.events.emit('on:data:load', { data: DATA });
+      }
+
       render(DATA);
+
+      // Emit after:init hook
+      if (window.AEL?.events) {
+        window.AEL.events.emit('after:init', { data: DATA, timestamp: Date.now() });
+      }
     } catch (err) {
       console.error("AEL Engine initialization failed:", err);
+      if (window.AEL?.events) {
+        window.AEL.events.emit('on:error', { error: err });
+      }
       const main = document.getElementById("mainContent");
       if (main) {
         main.innerHTML = `
@@ -854,28 +883,36 @@
 
   // ── Public API ─────────────────────────────────────────────────────────────
 
-  window.AEL = {
-    init,
-    exportPDF,
-    exportMarkdown,
-    exportJSON,
-    getData: () => DATA,
-    search: (q) => {
-      searchQuery = q;
-      const si = document.getElementById("searchInput");
-      if (si) si.value = q;
-      applyFilters();
-    },
-    expandAll: () => {
-      document.querySelectorAll(".item-card").forEach((card) => expandCard(card));
-    },
-    collapseAll: () => {
-      document.querySelectorAll(".item-card").forEach((card) => {
-        card.classList.remove("expanded");
-        const h = card.querySelector(".card-header");
-        if (h) h.setAttribute("aria-expanded", "false");
-      });
-    },
+  window.AEL = window.AEL || {};
+  window.AEL.init = init;
+  window.AEL.render = () => render(DATA);
+  window.AEL.exportPDF = exportPDF;
+  window.AEL.exportMarkdown = exportMarkdown;
+  window.AEL.exportJSON = exportJSON;
+  window.AEL.getData = () => DATA;
+  window.AEL.search = (q) => {
+    searchQuery = q;
+    const si = document.getElementById("searchInput");
+    if (si) si.value = q;
+    applyFilters();
+  };
+  window.AEL.expandAll = () => {
+    document.querySelectorAll(".item-card").forEach((card) => expandCard(card));
+  };
+  window.AEL.collapseAll = () => {
+    document.querySelectorAll(".item-card").forEach((card) => {
+      card.classList.remove("expanded");
+      const h = card.querySelector(".card-header");
+      if (h) h.setAttribute("aria-expanded", "false");
+    });
+  };
+  window.AEL.destroy = () => {
+    if (window.AEL?.events) {
+      window.AEL.events.emit('destroy', { timestamp: Date.now() });
+    }
+    const main = document.getElementById("mainContent");
+    if (main) main.innerHTML = '';
+    DATA = null;
   };
 
   // Auto-init when DOM is ready

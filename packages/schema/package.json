@@ -1,6 +1,6 @@
 {
   "name": "@ael/reference-schema",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Official JSON Schema and validator for AEL Engineering References",
   "main": "validator.js",
   "types": "schema.d.ts",

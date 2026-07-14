@@ -1,6 +1,6 @@
 {
   "name": "@ael/reference-builder",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Static site builder for AEL Engineering References",
   "main": "builder.js",
   "bin": {
