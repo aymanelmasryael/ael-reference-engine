@@ -1,0 +1,27 @@
+{
+  "name": "@ael/conformance-kit",
+  "version": "1.0.0",
+  "description": "AEL Reference Conformance Kit (ARCK) — validates engine implementations against the AEL Reference Specification",
+  "main": "runner.js",
+  "bin": {
+    "arck": "runner.js"
+  },
+  "files": [
+    "runner.js",
+    "README.md"
+  ],
+  "scripts": {
+    "conform": "node runner.js",
+    "test": "node runner.js --verbose"
+  },
+  "keywords": [
+    "ael",
+    "conformance",
+    "specification",
+    "testing",
+    "certification"
+  ],
+  "author": "Ayman Elmasry — AEL Digital Studio",
+  "license": "MIT",
+  "homepage": "https://github.com/aymanelmasryael/ael-reference-engine"
+}

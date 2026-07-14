@@ -1220,6 +1220,44 @@ function cmdDoctor() {
   }
 }
 
+function cmdConform(args) {
+  console.log(`\n  ${b('AEL Reference Conformance Kit (ARCK)')} ${dim('v1.0.0')}\n`);
+  console.log(HLINE);
+  console.log('');
+  
+  // Check if runner exists
+  const runnerPath = path.resolve(__dirname, '../../conformance/runner.js');
+  if (!fs.existsSync(runnerPath)) {
+    console.error(`  ${r('Error:')} ARCK not found at ${c(runnerPath)}.`);
+    console.error(`  Ensure the conformance directory exists.\n`);
+    process.exit(1);
+  }
+  
+  // Run ARCK
+  try {
+    const originalArgv = process.argv;
+    process.argv = ['node', 'runner.js', ...args];
+    
+    // Load and run the runner
+    const { ARCK } = require(runnerPath);
+    const options = {
+      target: args.includes('--target') ? args[args.indexOf('--target') + 1] : args.includes('-t') ? args[args.indexOf('-t') + 1] : '.',
+      specVersion: args.includes('--spec') ? args[args.indexOf('--spec') + 1] : args.includes('-s') ? args[args.indexOf('-s') + 1] : '1.0',
+      json: args.includes('--json') || args.includes('-j'),
+      report: args.includes('--report') || args.includes('-r'),
+      verbose: args.includes('--verbose') || args.includes('-v')
+    };
+    
+    const arck = new ARCK(options);
+    arck.run();
+    
+    process.argv = originalArgv;
+  } catch (err) {
+    console.error(`\n  ${r('Error:')} ${err.message}\n`);
+    process.exit(1);
+  }
+}
+
 function cmdHelp() {
   console.log('');
   console.log(`  ${b('AEL Reference CLI')} ${dim(`v${VERSION}`)}`);
@@ -1239,6 +1277,7 @@ function cmdHelp() {
   console.log('');
   console.log(`  ${b('Quality Commands:')}`);
   console.log(`    ${c('ael')} ${mag('test')}                          Run test suite`);
+  console.log(`    ${c('ael')} ${mag('conform')}   ${dim('[options]')}       Run conformance tests (ARCK)`);
   console.log(`    ${c('ael')} ${mag('docs')}                          Generate documentation`);
   console.log(`    ${c('ael')} ${mag('upgrade')}                       Upgrade engine files`);
   console.log(`    ${c('ael')} ${mag('help')}                          Show this help message`);
@@ -1251,6 +1290,8 @@ function cmdHelp() {
   console.log(`    ${c('ael build --minify')}`);
   console.log(`    ${c('ael serve 8080')}`);
   console.log(`    ${c('ael test')}`);
+  console.log(`    ${c('ael conform')}`);
+  console.log(`    ${c('ael conform --target ./my-engine --json')}`);
   console.log(`    ${c('ael publish')}`);
   console.log(`    ${c('ael doctor')}`);
   console.log('');
@@ -1298,6 +1339,9 @@ function main() {
       break;
     case 'doctor':
       cmdDoctor();
+      break;
+    case 'conform':
+      cmdConform(commandArgs);
       break;
     case 'info':
       cmdInfo();
