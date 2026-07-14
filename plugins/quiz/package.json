@@ -1,0 +1,23 @@
+{
+  "name": "@ael/plugin-quiz",
+  "version": "1.0.0",
+  "description": "Interactive quiz system for AEL Engineering References",
+  "main": "plugin.js",
+  "files": [
+    "plugin.js",
+    "README.md"
+  ],
+  "keywords": [
+    "ael",
+    "plugin",
+    "quiz",
+    "interactive",
+    "learning"
+  ],
+  "author": "Ayman Elmasry — AEL Digital Studio",
+  "license": "MIT",
+  "homepage": "https://github.com/aymanelmasryael/ael-reference-engine",
+  "peerDependencies": {
+    "@ael/reference-engine": ">=1.1.0"
+  }
+}
