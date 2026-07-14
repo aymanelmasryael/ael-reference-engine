@@ -1,0 +1,21 @@
+{
+  "name": "@ael/reference-compiler",
+  "version": "1.0.0",
+  "description": "Compiles Markdown files into data.json for AEL Engineering References",
+  "main": "compiler.js",
+  "files": [
+    "compiler.js"
+  ],
+  "scripts": {
+    "compile": "node compiler.js"
+  },
+  "keywords": [
+    "ael",
+    "compiler",
+    "markdown",
+    "reference"
+  ],
+  "author": "Ayman Elmasry — AEL Digital Studio",
+  "license": "MIT",
+  "homepage": "https://github.com/aymanelmasryael/ael-reference-engine"
+}
