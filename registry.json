@@ -1,0 +1,49 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-07-15",
+  "official": {
+    "plugins": [
+      {
+        "name": "quiz",
+        "version": "1.0.0",
+        "description": "Interactive quiz system",
+        "author": "Ayman Elmasry — AEL Digital Studio",
+        "license": "MIT",
+        "aelVersion": ">=1.1.0",
+        "certification": "official",
+        "status": "stable",
+        "repository": "https://github.com/aymanelmasryael/ael-reference-engine/tree/main/plugins/quiz"
+      }
+    ],
+    "themes": [],
+    "references": [
+      {
+        "name": "terminal",
+        "version": "1.0.0",
+        "description": "Terminal Engineering Reference",
+        "author": "Ayman Elmasry — AEL Digital Studio",
+        "repository": "https://github.com/aymanelmasryael/ael-terminal-engineering-reference-2026"
+      },
+      {
+        "name": "llm",
+        "version": "1.0.0",
+        "description": "LLM Engineering Reference",
+        "author": "Ayman Elmasry — AEL Digital Studio",
+        "repository": "https://github.com/aymanelmasryael/ael-llm-engineering-reference-2026"
+      }
+    ]
+  },
+  "community": {
+    "plugins": [],
+    "themes": [],
+    "references": []
+  },
+  "experimental": {
+    "plugins": [],
+    "themes": []
+  },
+  "deprecated": {
+    "plugins": [],
+    "themes": []
+  }
+}
