@@ -1,31 +1,70 @@
-# AEL Reference Engine
+# AEL Reference Framework
 
-> The shared engine powering all AEL Engineering References.
+> A specification-driven framework for building interactive engineering references.
 
-**Version 1.0.0** · Zero Dependencies · Universal · Reusable
+**Specification-Driven. Plugin-First. Data-Driven. Zero Dependencies.**
+
+**Version 2.0.0** · Core API Frozen · Specification Published · Architecture Complete
 
 ---
 
 ## What Is This?
 
-A universal engine (CSS + JS) that powers interactive engineering references. Provide a `data.json` file and get a complete reference with:
+A complete framework for building interactive, searchable, exportable technical references. Not just an engine — a full platform with specifications, governance, and conformance testing.
 
-- Expandable cards with flags, examples, tips, and references
-- Learning Roadmap (Beginner → Intermediate → Advanced)
-- Difficulty levels on every item
-- Learning progress tracking (○/◐/●)
-- Favorites system
-- Instant search with smart ranking
-- Platform badges
-- Cross-references
-- Export (PDF / Markdown / JSON)
-- Glossary
-- Responsive dark mode
-- Zero dependencies
+```
+Core
+  ↓
+Plugins
+  ↓
+Themes
+  ↓
+References
+```
 
 ---
 
-## How It Works
+## Architecture
+
+```
+AEL Reference Framework
+│
+├── Core Engine (Frozen)
+│   ├── Rendering Engine
+│   ├── Plugin API
+│   ├── Theme System
+│   └── Public API
+│
+├── SDK
+│   ├── JSON Schema
+│   ├── TypeScript Types
+│   ├── Compiler (Markdown → JSON)
+│   ├── Builder (Static Site)
+│   └── CLI (12 commands)
+│
+├── Specifications
+│   ├── Plugin Specification v1.0
+│   └── Theme Specification v1.0
+│
+├── Conformance Kit (ARCK)
+│   └── 47 tests across 8 categories
+│
+├── Governance
+│   ├── GOVERNANCE.md
+│   ├── CONTRIBUTING.md
+│   ├── SECURITY.md
+│   └── COMPATIBILITY.md
+│
+├── Official Plugins
+│   └── Quiz Plugin
+│
+└── Architecture Decision Record
+    └── ARCHITECTURE.md
+```
+
+---
+
+## Quick Start
 
 ### 1. Create your data.json
 
@@ -35,12 +74,7 @@ A universal engine (CSS + JS) that powers interactive engineering references. Pr
     "name": "My Reference",
     "shortName": "my-ref",
     "version": "1.0.0",
-    "description": "Description here",
-    "readingTime": "~2 hours",
-    "stats": {
-      "items": "100+",
-      "categories": "10"
-    }
+    "description": "Description here"
   },
   "categories": [
     { "id": "nav", "name": "Navigation", "icon": "📁", "color": "#00FF88" }
@@ -51,20 +85,8 @@ A universal engine (CSS + JS) that powers interactive engineering references. Pr
       "syntax": "ls [dir]",
       "desc": "List files & folders",
       "category": "nav",
-      "difficulty": "beginner",
-      "flags": [{ "flag": "-a", "desc": "Show hidden files" }],
-      "examples": [{ "label": "Long format", "code": "ls -la" }],
-      "tip": "Use -lh for human-readable sizes",
-      "related": ["find", "tree"],
-      "platforms": ["macOS", "Linux", "Bash"],
-      "refs": [{ "label": "man ls", "url": "https://man7.org/linux/man-pages/man1/ls.1.html" }]
+      "difficulty": "beginner"
     }
-  ],
-  "glossary": [
-    { "term": "PATH", "desc": "Environment variable listing directories" }
-  ],
-  "roadmap": [
-    { "level": "Beginner", "desc": "Basics", "categories": ["nav"] }
   ]
 }
 ```
@@ -82,6 +104,8 @@ A universal engine (CSS + JS) that powers interactive engineering references. Pr
 </head>
 <body>
   <div id="app"></div>
+  <script src="ael-engine.plugins.js"></script>
+  <script src="ael-engine.themes.js"></script>
   <script src="ael-engine.js"></script>
 </body>
 </html>
@@ -93,72 +117,121 @@ The engine auto-loads `data.json` and renders everything.
 
 ---
 
-## Data Schema
+## CLI Commands
 
-### meta
-| Field | Type | Description |
-|-------|------|-------------|
-| name | string | Full project name |
-| shortName | string | Short name for localStorage keys |
-| version | string | Version number |
-| description | string | Short description |
-| readingTime | string | Estimated reading time |
-| repoUrl | string | GitHub repository URL |
-| demoUrl | string | Live demo URL |
-| stats | object | Statistics to display |
-
-### categories
-| Field | Type | Description |
-|-------|------|-------------|
-| id | string | Unique identifier |
-| name | string | Display name |
-| icon | string | Emoji icon |
-| color | string | Hex color |
-
-### items
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| name | string | ✅ | Item name |
-| syntax | string | ✅ | Full syntax |
-| desc | string | ✅ | Short description |
-| category | string | ✅ | Category ID |
-| difficulty | string | ✅ | beginner / intermediate / advanced |
-| flags | array | ❌ | [{flag, desc}] |
-| examples | array | ❌ | [{label, code}] |
-| tip | string | ❌ | Helpful tip |
-| related | array | ❌ | [item names] |
-| platforms | array | ❌ | Platform tags |
-| refs | array | ❌ | [{label, url}] |
+| Command | Description |
+|---------|-------------|
+| `ael create <name>` | Create new reference project |
+| `ael validate [path]` | Validate data.json |
+| `ael compile [docs] [output]` | Compile Markdown to JSON |
+| `ael build [options]` | Build static site |
+| `ael serve [port]` | Start dev server |
+| `ael test` | Run test suite |
+| `ael conform [options]` | Run ARCK conformance tests |
+| `ael publish` | Validate + Build + Deploy |
+| `ael docs` | Generate documentation |
+| `ael upgrade` | Upgrade engine files |
+| `ael doctor` | Check project health |
+| `ael info` | Show project info |
 
 ---
 
-## Public API
+## Plugin System
 
-```js
-// Initialize
-AEL.init(data);
+```javascript
+const MyPlugin = {
+  name: "my-plugin",
+  version: "1.0.0",
+  install(api) {
+    api.hook("after:render", () => {
+      console.log("Engine rendered!");
+    });
+  }
+};
 
-// Search
-AEL.search("grep");
-
-// Expand/Collapse all
-AEL.expandAll();
-AEL.collapseAll();
-
-// Export
-AEL.exportPDF();
-AEL.exportMarkdown();
-AEL.exportJSON();
+AEL.use(MyPlugin);
 ```
 
 ---
 
-## Existing References Using This Engine
+## Theme System
+
+```json
+{
+  "name": "my-theme",
+  "colors": {
+    "primary": "#0074FF",
+    "background": "#0B1220",
+    "text": "#E0E0E0"
+  }
+}
+```
+
+```javascript
+AEL.theme.load(myTheme);
+```
+
+---
+
+## Conformance Testing
+
+```bash
+# Run ARCK on your implementation
+ael conform
+
+# Test another engine
+ael conform --target ./my-engine
+
+# Generate reports
+ael conform --json --report
+```
+
+---
+
+## Existing References
 
 | Reference | Repository |
 |-----------|------------|
 | AEL Terminal Engineering Reference 2026 | [GitHub](https://github.com/aymanelmasryael/ael-terminal-engineering-reference-2026) |
 | AEL LLM Engineering Reference 2026 | [GitHub](https://github.com/aymanelmasryael/ael-llm-engineering-reference-2026) |
+
+---
+
+## Documentation
+
+| Document | Description |
+|----------|-------------|
+| [ARCHITECTURE.md](ARCHITECTURE.md) | Architectural Decision Record |
+| [SPEC-PLUGIN.md](SPEC-PLUGIN.md) | Plugin Specification v1.0 |
+| [SPEC-THEME.md](SPEC-THEME.md) | Theme Specification v1.0 |
+| [GOVERNANCE.md](GOVERNANCE.md) | Decision process |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | How to contribute |
+| [SECURITY.md](SECURITY.md) | Security policy |
+| [ROADMAP.md](ROADMAP.md) | Future plans |
+| [COMPATIBILITY.md](COMPATIBILITY.md) | Version matrix |
+
+---
+
+## Design Principles
+
+1. **Data First** — Content separate from presentation
+2. **Core Stability** — Engine rarely changes
+3. **Extensibility over Modification** — Plugins, not core changes
+4. **Zero Dependencies** — No external libraries
+5. **Specification-Driven** — Spec before implementation
+6. **Backward Compatibility** — Breaking changes require major versions
+
+---
+
+## Architecture Invariants
+
+1. Core is frozen during minor releases
+2. New capabilities are Plugins whenever possible
+3. Data remains separate from Engine
+4. Specification is source of truth
+5. All implementations must pass ARCK
+6. Public API changes require Major version
+7. Backward compatibility is the default
 
 ---
 
