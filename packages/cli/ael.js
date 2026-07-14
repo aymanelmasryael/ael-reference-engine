@@ -32,7 +32,7 @@ const bgFail = (s) => `${C.bgRed}${C.white}${C.bold} ${s} ${C.reset}`;
 
 const HLINE = `${C.dim}${'─'.repeat(48)}${C.reset}`;
 const HLINE_LONG = `${C.dim}${'─'.repeat(56)}${C.reset}`;
-const VERSION = '1.0.0';
+const VERSION = '1.1.0';
 
 const MIME_TYPES = {
   '.html': 'text/html',
@@ -498,26 +498,260 @@ function cmdInfo() {
   console.log('');
 }
 
+function cmdCompile(args) {
+  const docsDir = args[0] || './docs';
+  const outputFile = args[1] || './data.json';
+  
+  console.log(`\n  ${b('AEL Data Compiler')} ${dim('v1.0.0')}\n`);
+  console.log(HLINE);
+  console.log('');
+  
+  // Check if compiler exists
+  const compilerPath = path.resolve(__dirname, '../compiler/compiler.js');
+  if (!fs.existsSync(compilerPath)) {
+    console.error(`  ${r('Error:')} Compiler not found at ${c(compilerPath)}.`);
+    console.error(`  Run ${c('npm install')} in the engine directory.\n`);
+    process.exit(1);
+  }
+  
+  // Check if docs directory exists
+  if (!fs.existsSync(path.resolve(docsDir))) {
+    console.error(`  ${r('Error:')} Docs directory not found at ${c(docsDir)}.`);
+    console.error(`  Create a ${b('docs/')} directory with your markdown files.\n`);
+    process.exit(1);
+  }
+  
+  console.log(`  ${c('Input:')}   ${b(docsDir)}/`);
+  console.log(`  ${c('Output:')}  ${b(outputFile)}`);
+  console.log('');
+  
+  // Run compiler
+  try {
+    const { AELCompiler } = require(compilerPath);
+    const compiler = new AELCompiler(path.resolve(docsDir));
+    compiler.compile(path.resolve(outputFile));
+  } catch (err) {
+    console.error(`\n  ${r('Error:')} ${err.message}\n`);
+    process.exit(1);
+  }
+}
+
+function cmdBuildSite(args) {
+  console.log(`\n  ${b('AEL Static Site Builder')} ${dim('v1.0.0')}\n`);
+  console.log(HLINE);
+  console.log('');
+  
+  // Check if builder exists
+  const builderPath = path.resolve(__dirname, '../builder/builder.js');
+  if (!fs.existsSync(builderPath)) {
+    console.error(`  ${r('Error:')} Builder not found at ${c(builderPath)}.`);
+    console.error(`  Run ${c('npm install')} in the engine directory.\n`);
+    process.exit(1);
+  }
+  
+  // Run builder
+  try {
+    const builder = require(builderPath);
+    // The builder will handle its own argument parsing
+    const originalArgv = process.argv;
+    process.argv = ['node', 'builder.js', ...args];
+    builder.main();
+    process.argv = originalArgv;
+  } catch (err) {
+    console.error(`\n  ${r('Error:')} ${err.message}\n`);
+    process.exit(1);
+  }
+}
+
+function cmdTest() {
+  console.log(`\n  ${b('AEL Test Suite')} ${dim('v1.0.0')}\n`);
+  console.log(HLINE);
+  console.log('');
+  
+  let passed = 0;
+  let failed = 0;
+  let total = 0;
+  
+  function test(name, fn) {
+    total++;
+    try {
+      fn();
+      passed++;
+      console.log(`  ${g('✓')} ${name}`);
+    } catch (err) {
+      failed++;
+      console.log(`  ${r('✕')} ${name}`);
+      console.log(`    ${dim(err.message)}`);
+    }
+  }
+  
+  function assert(condition, message) {
+    if (!condition) throw new Error(message || 'Assertion failed');
+  }
+  
+  function assertEqual(actual, expected, message) {
+    if (actual !== expected) {
+      throw new Error(message || `Expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`);
+    }
+  }
+  
+  function assertArray(arr, message) {
+    if (!Array.isArray(arr)) throw new Error(message || `Expected array, got ${typeof arr}`);
+  }
+  
+  function assertObject(obj, message) {
+    if (typeof obj !== 'object' || obj === null || Array.isArray(obj)) {
+      throw new Error(message || `Expected object, got ${typeof obj}`);
+    }
+  }
+  
+  // Test 1: Schema Validation
+  console.log(`  ${b('Schema Validation')}`);
+  
+  test('data.json exists', () => {
+    assert(fs.existsSync('./data.json'), 'data.json not found');
+  });
+  
+  let data;
+  test('data.json is valid JSON', () => {
+    const raw = fs.readFileSync('./data.json', 'utf-8');
+    data = JSON.parse(raw);
+    assert(data !== null, 'data.json is null');
+  });
+  
+  test('meta section exists', () => {
+    assertObject(data.meta, 'meta is missing');
+    assert(data.meta.name, 'meta.name is missing');
+    assert(data.meta.version, 'meta.version is missing');
+  });
+  
+  test('categories is array', () => {
+    assertArray(data.categories, 'categories is not array');
+    assert(data.categories.length > 0, 'categories is empty');
+  });
+  
+  test('items is array', () => {
+    assertArray(data.items, 'items is not array');
+    assert(data.items.length > 0, 'items is empty');
+  });
+  
+  test('no duplicate item ids', () => {
+    const ids = new Set();
+    data.items.forEach((item, i) => {
+      assert(!ids.has(item.id), `Duplicate id: ${item.id} at index ${i}`);
+      ids.add(item.id);
+    });
+  });
+  
+  test('all item categories exist', () => {
+    const catIds = new Set(data.categories.map(c => c.id));
+    data.items.forEach(item => {
+      if (item.category) {
+        assert(catIds.has(item.category), `Unknown category: ${item.category}`);
+      }
+    });
+  });
+  
+  console.log('');
+  
+  // Test 2: File Structure
+  console.log(`  ${b('File Structure')}`);
+  
+  test('index.html exists', () => {
+    assert(fs.existsSync('./index.html'), 'index.html not found');
+  });
+  
+  test('index.html references ael-engine.css', () => {
+    const html = fs.readFileSync('./index.html', 'utf-8');
+    assert(html.includes('ael-engine.css'), 'ael-engine.css not referenced');
+  });
+  
+  test('index.html references ael-engine.js', () => {
+    const html = fs.readFileSync('./index.html', 'utf-8');
+    assert(html.includes('ael-engine.js'), 'ael-engine.js not referenced');
+  });
+  
+  test('README.md exists', () => {
+    assert(fs.existsSync('./README.md'), 'README.md not found');
+  });
+  
+  test('.gitignore exists', () => {
+    assert(fs.existsSync('./.gitignore'), '.gitignore not found');
+  });
+  
+  console.log('');
+  
+  // Test 3: Data Integrity
+  console.log(`  ${b('Data Integrity')}`);
+  
+  test('glossary is array (if present)', () => {
+    if (data.glossary) {
+      assertArray(data.glossary, 'glossary is not array');
+    }
+  });
+  
+  test('roadmap is array (if present)', () => {
+    if (data.roadmap) {
+      assertArray(data.roadmap, 'roadmap is not array');
+    }
+  });
+  
+  test('all items have required fields', () => {
+    data.items.forEach((item, i) => {
+      assert(item.id, `items[${i}].id is missing`);
+      assert(item.name || item.title, `items[${i}].name/title is missing`);
+      assert(item.category, `items[${i}].category is missing`);
+    });
+  });
+  
+  test('all categories have required fields', () => {
+    data.categories.forEach((cat, i) => {
+      assert(cat.id, `categories[${i}].id is missing`);
+      assert(cat.name, `categories[${i}].name is missing`);
+    });
+  });
+  
+  console.log('');
+  
+  // Summary
+  console.log(HLINE);
+  console.log('');
+  
+  if (failed === 0) {
+    console.log(`  ${bgOk('PASS')}  ${g(`All ${total} tests passed.`)}\n`);
+  } else {
+    console.log(`  ${bgFail('FAIL')}  ${r(`${failed} of ${total} tests failed.`)}\n`);
+    process.exit(1);
+  }
+}
+
 function cmdHelp() {
   console.log('');
   console.log(`  ${b('AEL Reference CLI')} ${dim(`v${VERSION}`)}`);
   console.log(HLINE_LONG);
   console.log('');
-  console.log(`  ${c('ael')} ${mag('create')}    ${mag('<name>')}          Create a new reference project`);
-  console.log(`  ${c('ael')} ${mag('validate')}  ${dim('[path]')}           Validate a data.json file`);
-  console.log(`  ${c('ael')} ${mag('build')}                        Validate & check publish readiness`);
-  console.log(`  ${c('ael')} ${mag('serve')}      ${dim('[port]')}           Start local dev server`);
-  console.log(`  ${c('ael')} ${mag('info')}                          Show project information`);
-  console.log(`  ${c('ael')} ${mag('help')}                          Show this help message`);
+  console.log(`  ${b('Project Commands:')}`);
+  console.log(`    ${c('ael')} ${mag('create')}    ${mag('<name>')}          Create a new reference project`);
+  console.log(`    ${c('ael')} ${mag('validate')}  ${dim('[path]')}           Validate a data.json file`);
+  console.log(`    ${c('ael')} ${mag('info')}                          Show project information`);
+  console.log('');
+  console.log(`  ${b('Build Commands:')}`);
+  console.log(`    ${c('ael')} ${mag('compile')}   ${dim('[docs] [output]')}  Compile Markdown to data.json`);
+  console.log(`    ${c('ael')} ${mag('build')}     ${dim('[options]')}       Build static site to dist/`);
+  console.log(`    ${c('ael')} ${mag('serve')}      ${dim('[port]')}           Start local dev server`);
+  console.log('');
+  console.log(`  ${b('Quality Commands:')}`);
+  console.log(`    ${c('ael')} ${mag('test')}                          Run test suite`);
+  console.log(`    ${c('ael')} ${mag('help')}                          Show this help message`);
   console.log('');
   console.log(HLINE_LONG);
   console.log('');
   console.log(`  ${b('Examples:')}`);
   console.log(`    ${c('ael create docker-reference')}`);
-  console.log(`    ${c('ael validate')}`);
-  console.log(`    ${c('ael validate ./data.json')}`);
-  console.log(`    ${c('ael serve')}`);
+  console.log(`    ${c('ael compile docs/ data.json')}`);
+  console.log(`    ${c('ael build --minify')}`);
   console.log(`    ${c('ael serve 8080')}`);
+  console.log(`    ${c('ael test')}`);
   console.log('');
   console.log(`  ${dim('Docs:')} ${c('https://github.com/aymanelmasryael/ael-reference-engine')}`);
   console.log('');
@@ -538,12 +772,18 @@ function main() {
     case 'check':
       cmdValidate(commandArgs);
       break;
+    case 'compile':
+      cmdCompile(commandArgs);
+      break;
     case 'build':
-      cmdBuild();
+      cmdBuildSite(commandArgs);
       break;
     case 'serve':
     case 'start':
       cmdServe(commandArgs);
+      break;
+    case 'test':
+      cmdTest();
       break;
     case 'info':
       cmdInfo();

@@ -1,0 +1,24 @@
+{
+  "name": "@ael/reference-builder",
+  "version": "1.0.0",
+  "description": "Static site builder for AEL Engineering References",
+  "main": "builder.js",
+  "bin": {
+    "ael-build": "builder.js"
+  },
+  "files": [
+    "builder.js"
+  ],
+  "scripts": {
+    "build": "node builder.js"
+  },
+  "keywords": [
+    "ael",
+    "builder",
+    "static-site",
+    "reference"
+  ],
+  "author": "Ayman Elmasry — AEL Digital Studio",
+  "license": "MIT",
+  "homepage": "https://github.com/aymanelmasryael/ael-reference-engine"
+}
