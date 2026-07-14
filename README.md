@@ -6,6 +6,8 @@
 
 **Version 2.0.0** · Core API Frozen · Specification Published · Architecture Complete
 
+> **The framework is considered architecturally stable. Future evolution happens through references, plugins, themes, and specifications—not through core expansion.**
+
 ---
 
 ## What Is This?
