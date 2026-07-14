@@ -1,0 +1,270 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aeldigitalstudio.com/schemas/reference-v1.json",
+  "title": "AEL Reference Engine Data Schema",
+  "description": "JSON Schema for AEL Reference Engine data files. Every reference project must conform to this schema.",
+  "type": "object",
+  "required": ["meta", "categories", "items", "glossary", "roadmap"],
+  "additionalProperties": false,
+  "properties": {
+    "meta": {
+      "type": "object",
+      "description": "Project metadata including name, version, and description.",
+      "required": ["name", "shortName", "version", "description", "readingTime", "stats"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Full name of the reference project."
+        },
+        "shortName": {
+          "type": "string",
+          "description": "Short slug identifier for the project.",
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "version": {
+          "type": "string",
+          "description": "Semantic version number (e.g. \"1.0.0\").",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "description": {
+          "type": "string",
+          "description": "Brief description of the reference project."
+        },
+        "readingTime": {
+          "type": "string",
+          "description": "Estimated reading time (e.g. \"45 min\", \"1.5 hrs\")."
+        },
+        "repoUrl": {
+          "type": "string",
+          "description": "URL to the project's source repository.",
+          "format": "uri"
+        },
+        "demoUrl": {
+          "type": "string",
+          "description": "URL to a live demo of the project.",
+          "format": "uri"
+        },
+        "stats": {
+          "type": "object",
+          "description": "Summary statistics displayed in the project header.",
+          "required": ["items", "categories"],
+          "additionalProperties": false,
+          "properties": {
+            "items": {
+              "type": "string",
+              "description": "Total number of items as a human-readable string (e.g. \"150+\", \"200\")."
+            },
+            "categories": {
+              "type": "string",
+              "description": "Total number of categories as a human-readable string (e.g. \"12\", \"10+\")."
+            },
+            "flags": {
+              "type": "string",
+              "description": "Total number of feature flags as a human-readable string."
+            },
+            "examples": {
+              "type": "string",
+              "description": "Total number of code examples as a human-readable string."
+            },
+            "tips": {
+              "type": "string",
+              "description": "Total number of tips as a human-readable string."
+            }
+          }
+        }
+      }
+    },
+    "categories": {
+      "type": "array",
+      "description": "List of categories used to group items.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "icon", "color"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the category.",
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "name": {
+            "type": "string",
+            "description": "Human-readable category name."
+          },
+          "icon": {
+            "type": "string",
+            "description": "Emoji icon for the category (e.g. \"\\ud83d\\udce6\", \"\\ud83d\\udd27\")."
+          },
+          "color": {
+            "type": "string",
+            "description": "Hex color code for the category (e.g. \"#3B82F6\", \"#10B981\").",
+            "pattern": "^#[0-9A-Fa-f]{6}$"
+          }
+        }
+      }
+    },
+    "items": {
+      "type": "array",
+      "description": "All reference items in the project.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "syntax", "desc", "category", "difficulty", "flags", "examples"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Display name of the item (e.g. \"filter\", \"map\", \"async/await\")."
+          },
+          "syntax": {
+            "type": "string",
+            "description": "Syntax signature or usage pattern (e.g. \"array.filter(callback)\")."
+          },
+          "desc": {
+            "type": "string",
+            "description": "Brief description of what the item does."
+          },
+          "category": {
+            "type": "string",
+            "description": "ID of the category this item belongs to. Must match a category id."
+          },
+          "difficulty": {
+            "type": "string",
+            "description": "Difficulty level of the item.",
+            "enum": ["beginner", "intermediate", "advanced"]
+          },
+          "flags": {
+            "type": "array",
+            "description": "Feature flags or options that modify behavior.",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["flag", "desc"],
+              "additionalProperties": false,
+              "properties": {
+                "flag": {
+                  "type": "string",
+                  "description": "The flag identifier or option name."
+                },
+                "desc": {
+                  "type": "string",
+                  "description": "Description of what the flag does."
+                }
+              }
+            }
+          },
+          "examples": {
+            "type": "array",
+            "description": "Code examples demonstrating usage.",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["label", "code"],
+              "additionalProperties": false,
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "description": "Short label for the example (e.g. \"Basic usage\", \"With options\")."
+                },
+                "code": {
+                  "type": "string",
+                  "description": "The code snippet to display."
+                }
+              }
+            }
+          },
+          "tip": {
+            "type": "string",
+            "description": "Optional helpful tip or best practice note."
+          },
+          "related": {
+            "type": "array",
+            "description": "Names of related items. Must match other item names.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "platforms": {
+            "type": "array",
+            "description": "Supported platforms (e.g. \"node\", \"browser\", \"deno\", \"bun\").",
+            "items": {
+              "type": "string"
+            }
+          },
+          "refs": {
+            "type": "array",
+            "description": "External reference links for further reading.",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["label", "url"],
+              "additionalProperties": false,
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "description": "Display label for the link."
+                },
+                "url": {
+                  "type": "string",
+                  "description": "URL of the external reference.",
+                  "format": "uri"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "glossary": {
+      "type": "array",
+      "description": "Definitions of key terms used throughout the reference.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["term", "desc"],
+        "additionalProperties": false,
+        "properties": {
+          "term": {
+            "type": "string",
+            "description": "The term being defined."
+          },
+          "desc": {
+            "type": "string",
+            "description": "Definition of the term."
+          }
+        }
+      }
+    },
+    "roadmap": {
+      "type": "array",
+      "description": "Learning roadmap organized by difficulty level.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["level", "desc", "categories"],
+        "additionalProperties": false,
+        "properties": {
+          "level": {
+            "type": "string",
+            "description": "Difficulty level for this roadmap step.",
+            "enum": ["Beginner", "Intermediate", "Advanced"]
+          },
+          "desc": {
+            "type": "string",
+            "description": "Description of what to learn at this level."
+          },
+          "categories": {
+            "type": "array",
+            "description": "Category IDs to study at this level. Must match category ids.",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

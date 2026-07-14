@@ -1,0 +1,26 @@
+{
+  "name": "@ael/reference-schema",
+  "version": "1.0.0",
+  "description": "Official JSON Schema and validator for AEL Engineering References",
+  "main": "validator.js",
+  "types": "schema.d.ts",
+  "files": [
+    "schema.json",
+    "schema.d.ts",
+    "validator.js"
+  ],
+  "scripts": {
+    "validate": "node validator.js",
+    "test": "node validator.js ../../data.json"
+  },
+  "keywords": [
+    "ael",
+    "reference",
+    "schema",
+    "validator",
+    "engineering"
+  ],
+  "author": "Ayman Elmasry — AEL Digital Studio",
+  "license": "MIT",
+  "homepage": "https://github.com/aymanelmasryael/ael-reference-engine"
+}

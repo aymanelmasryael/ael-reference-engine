@@ -1,0 +1,24 @@
+{
+  "name": "@ael/reference-cli",
+  "version": "1.0.0",
+  "description": "CLI for creating and managing AEL Engineering References",
+  "main": "ael.js",
+  "bin": {
+    "ael": "./ael.js"
+  },
+  "files": [
+    "ael.js"
+  ],
+  "dependencies": {
+    "@ael/reference-schema": "file:../schema"
+  },
+  "keywords": [
+    "ael",
+    "cli",
+    "reference",
+    "engineering"
+  ],
+  "author": "Ayman Elmasry — AEL Digital Studio",
+  "license": "MIT",
+  "homepage": "https://github.com/aymanelmasryael/ael-reference-engine"
+}
