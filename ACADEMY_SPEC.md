@@ -26,124 +26,286 @@ AEL Engineering Academy is the flagship educational product of the AEL Digital L
 - Familiarity with command line
 - No prior ML/AI experience required
 
-## Learning Path Structure
+## Curriculum Structure
 
-### Learn Phase
+### Module 1: Foundations (Weeks 1-3)
 
-**Goal:** Understand LLM concepts from fundamentals to advanced.
+**Goal:** Understand what LLMs are and how they work.
 
-| Week | Topic | Reference Coverage |
-|------|-------|-------------------|
-| 1 | What are LLMs? | Architecture, Training, Inference |
-| 2 | Transformer Architecture | Attention, Self-Attention, Multi-Head |
-| 3 | Tokenization | BPE, WordPiece, SentencePiece |
-| 4 | Prompt Engineering | Zero-shot, Few-shot, Chain-of-Thought |
-| 5 | Fine-tuning | LoRA, QLoRA, PEFT |
-| 6 | RAG Architecture | Retrieval, Vector Stores, Embeddings |
-| 7 | Agents & Tools | Function Calling, Tool Use |
-| 8 | Evaluation | Benchmarks, Metrics, Human Evaluation |
-| 9 | Deployment | APIs, Cost Optimization, Scaling |
-| 10 | Safety & Alignment | Guardrails, Red-teaming, Ethics |
-| 11 | Advanced Topics | Multi-modal, Reasoning, Planning |
-| 12 | Capstone Project | Build a complete LLM application |
+#### Week 1: What are LLMs?
 
-### Practice Phase
+**Learning Outcomes:**
+After completing this week, the learner can:
 
-**Goal:** Apply knowledge through exercises and challenges.
+- ✓ Explain what an LLM is in simple terms
+- ✓ Differentiate between LLM and traditional ML models
+- ✓ Describe the training process (pre-training, fine-tuning)
+- ✓ Set up a Python environment for LLM development
+- ✓ Make a basic API call to an LLM
 
-#### Exercises (Per Topic)
+**Reference Coverage:** Architecture, Training, Inference
 
-Each reference topic includes 3-5 exercises:
+**Exercises:**
+- Exercise 1.1: Explain LLM to a non-technical person
+- Exercise 1.2: Compare different LLM providers
+- Exercise 1.3: Set up API keys and make first call
 
-```
-Exercise 1: Basic
-- Describe the attention mechanism in your own words
-- Implement a simple tokenizer
-- Write a basic prompt template
+**Challenge:** Build a text summarizer using API
 
-Exercise 2: Intermediate
-- Compare different tokenization methods
-- Design a RAG pipeline for a specific use case
-- Implement error handling for API calls
+#### Week 2: Transformer Architecture
 
-Exercise 3: Advanced
-- Optimize a prompt for a complex task
-- Design an evaluation framework
-- Build a multi-step agent workflow
-```
+**Learning Outcomes:**
+After completing this week, the learner can:
 
-#### Challenges
+- ✓ Explain the Transformer architecture
+- ✓ Describe Self-Attention mechanism
+- ✓ Explain Positional Encoding
+- ✓ Describe Multi-Head Attention
+- ✓ Compare Transformer vs RNN/LSTM
 
-Weekly challenges that combine multiple concepts:
+**Reference Coverage:** Attention, Self-Attention, Multi-Head
 
-```
-Week 1 Challenge: Build a text summarizer
-Week 2 Challenge: Implement a custom attention visualization
-Week 3 Challenge: Create a domain-specific tokenizer
-Week 4 Challenge: Design a prompt engineering framework
-Week 5 Challenge: Fine-tune a model for classification
-Week 6 Challenge: Build a RAG system with citation
-Week 7 Challenge: Create an agent with tool use
-Week 8 Challenge: Design an evaluation suite
-Week 9 Challenge: Deploy a production API
-Week 10 Challenge: Implement safety guardrails
-Week 11 Challenge: Build a multi-modal application
-Week 12: Capstone Project
-```
+**Exercises:**
+- Exercise 2.1: Visualize attention weights
+- Exercise 2.2: Implement simple attention from scratch
+- Exercise 2.3: Compare different attention patterns
 
-### Build Phase
+**Challenge:** Implement a custom attention visualization
 
-**Goal:** Create real projects that demonstrate mastery.
+#### Week 3: Tokenization
 
-#### Mini Projects (Weeks 1-11)
+**Learning Outcomes:**
+After completing this week, the learner can:
 
-Each week includes a small project:
+- ✓ Explain why tokenization matters
+- ✓ Describe BPE algorithm
+- ✓ Compare different tokenization methods
+- ✓ Implement a simple tokenizer
+- ✓ Handle edge cases in tokenization
 
-```
-Week 1: Prompt Library (collection of effective prompts)
-Week 2: Attention Visualizer (visual tool)
-Week 3: Custom Tokenizer (domain-specific)
-Week 4: Prompt Tester (A/B testing tool)
-Week 5: Fine-tuning Pipeline (automated)
-Week 6: RAG Chatbot (with citations)
-Week 7: Task Agent (multi-tool)
-Week 8: Evaluation Dashboard (metrics visualization)
-Week 9: API Server (production-ready)
-Week 10: Safety Checker (input/output validation)
-Week 11: Multi-modal App (text + image)
-```
+**Reference Coverage:** BPE, WordPiece, SentencePiece
 
-#### Capstone Project (Week 12)
+**Exercises:**
+- Exercise 3.1: Tokenize text with different methods
+- Exercise 3.2: Count tokens for cost estimation
+- Exercise 3.3: Handle special characters
 
-Build a complete, production-ready LLM application:
+**Challenge:** Create a domain-specific tokenizer
 
-```
-Project Options (choose one):
+---
 
-1. RAG Knowledge Base
+### Module 2: Core Techniques (Weeks 4-6)
+
+**Goal:** Master the essential LLM engineering techniques.
+
+#### Week 4: Prompt Engineering
+
+**Learning Outcomes:**
+After completing this week, the learner can:
+
+- ✓ Design effective prompts for various tasks
+- ✓ Apply Zero-shot, Few-shot, and Chain-of-Thought
+- ✓ Use prompt templates and variables
+- ✓ Evaluate prompt quality
+- ✓ Optimize prompts for cost and quality
+
+**Reference Coverage:** Zero-shot, Few-shot, Chain-of-Thought
+
+**Exercises:**
+- Exercise 4.1: Design prompts for different tasks
+- Exercise 4.2: Compare prompt engineering strategies
+- Exercise 4.3: Build a prompt testing framework
+
+**Challenge:** Design a prompt engineering framework
+
+#### Week 5: Fine-tuning
+
+**Learning Outcomes:**
+After completing this week, the learner can:
+
+- ✓ Explain when fine-tuning is needed
+- ✓ Describe LoRA and QLoRA
+- ✓ Prepare training data
+- ✓ Fine-tune a model for a specific task
+- ✓ Evaluate fine-tuned model performance
+
+**Reference Coverage:** LoRA, QLoRA, PEFT
+
+**Exercises:**
+- Exercise 5.1: Prepare a training dataset
+- Exercise 5.2: Fine-tune a small model
+- Exercise 5.3: Compare base vs fine-tuned model
+
+**Challenge:** Fine-tune a model for classification
+
+#### Week 6: RAG Architecture
+
+**Learning Outcomes:**
+After completing this week, the learner can:
+
+- ✓ Explain RAG architecture
+- ✓ Design a vector store schema
+- ✓ Implement document chunking
+- ✓ Build a basic RAG pipeline
+- ✓ Add citation tracking
+
+**Reference Coverage:** Retrieval, Vector Stores, Embeddings
+
+**Exercises:**
+- Exercise 6.1: Chunk documents for RAG
+- Exercise 6.2: Implement semantic search
+- Exercise 6.3: Add metadata filtering
+
+**Challenge:** Build a RAG system with citation
+
+---
+
+### Module 3: Applied Engineering (Weeks 7-9)
+
+**Goal:** Build real applications with LLMs.
+
+#### Week 7: Agents & Tools
+
+**Learning Outcomes:**
+After completing this week, the learner can:
+
+- ✓ Explain what agents are
+- ✓ Design tool schemas
+- ✓ Implement function calling
+- ✓ Build a multi-step agent workflow
+- ✓ Handle agent errors gracefully
+
+**Reference Coverage:** Function Calling, Tool Use
+
+**Exercises:**
+- Exercise 7.1: Define tools for an agent
+- Exercise 7.2: Implement tool routing
+- Exercise 7.3: Handle tool errors
+
+**Challenge:** Create an agent with tool use
+
+#### Week 8: Evaluation
+
+**Learning Outcomes:**
+After completing this week, the learner can:
+
+- ✓ Design evaluation frameworks
+- ✓ Choose appropriate metrics
+- ✓ Implement automated evaluation
+- ✓ Conduct human evaluation
+- ✓ Interpret evaluation results
+
+**Reference Coverage:** Benchmarks, Metrics, Human Evaluation
+
+**Exercises:**
+- Exercise 8.1: Design evaluation criteria
+- Exercise 8.2: Implement automated metrics
+- Exercise 8.3: Build an evaluation dashboard
+
+**Challenge:** Design an evaluation suite
+
+#### Week 9: Deployment
+
+**Learning Outcomes:**
+After completing this week, the learner can:
+
+- ✓ Design production APIs
+- ✓ Implement rate limiting and caching
+- ✓ Optimize for cost
+- ✓ Monitor performance
+- ✓ Handle scaling
+
+**Reference Coverage:** APIs, Cost Optimization, Scaling
+
+**Exercises:**
+- Exercise 9.1: Design an API schema
+- Exercise 9.2: Implement caching
+- Exercise 9.3: Set up monitoring
+
+**Challenge:** Deploy a production API
+
+---
+
+### Module 4: Production & Capstone (Weeks 10-12)
+
+**Goal:** Build production-ready applications.
+
+#### Week 10: Safety & Alignment
+
+**Learning Outcomes:**
+After completing this week, the learner can:
+
+- ✓ Identify safety risks
+- ✓ Implement input validation
+- ✓ Design output guardrails
+- ✓ Conduct red-teaming
+- ✓ Apply ethical considerations
+
+**Reference Coverage:** Guardrails, Red-teaming, Ethics
+
+**Exercises:**
+- Exercise 10.1: Identify attack vectors
+- Exercise 10.2: Implement input filtering
+- Exercise 10.3: Design output validation
+
+**Challenge:** Implement safety guardrails
+
+#### Week 11: Advanced Topics
+
+**Learning Outcomes:**
+After completing this week, the learner can:
+
+- ✓ Explain multi-modal LLMs
+- ✓ Describe reasoning techniques
+- ✓ Implement planning strategies
+- ✓ Compare different approaches
+- ✓ Choose the right technique for the task
+
+**Reference Coverage:** Multi-modal, Reasoning, Planning
+
+**Exercises:**
+- Exercise 11.1: Work with multi-modal inputs
+- Exercise 11.2: Implement chain-of-thought
+- Exercise 11.3: Design a planning system
+
+**Challenge:** Build a multi-modal application
+
+#### Week 12: Capstone Project
+
+**Learning Outcomes:**
+After completing this week, the learner can:
+
+- ✓ Design a complete LLM application
+- ✓ Implement all components
+- ✓ Write documentation
+- ✓ Create a demo
+- ✓ Present the project
+
+**Project Options (choose one):**
+
+1. **RAG Knowledge Base**
    - Ingest documents
    - Vector search
    - Citation tracking
    - Web interface
 
-2. AI Writing Assistant
+2. **AI Writing Assistant**
    - Multiple writing styles
    - Grammar checking
    - Tone adjustment
    - Export to Markdown
 
-3. Code Review Agent
+3. **Code Review Agent**
    - Analyze pull requests
    - Suggest improvements
    - Security scanning
    - Integration with GitHub
 
-4. Customer Support Bot
+4. **Customer Support Bot**
    - Intent classification
    - Response generation
    - Escalation logic
    - Analytics dashboard
-```
 
 **Requirements:**
 - Working code on GitHub
@@ -153,13 +315,13 @@ Project Options (choose one):
 - Cost analysis
 - Safety considerations
 
-### Validate Phase
+---
 
-**Goal:** Assess knowledge and skills through multiple methods.
+## Assessment
 
-#### Quiz (Per Topic)
+### Quiz (Per Week)
 
-Each topic includes a quiz:
+Each week includes a quiz:
 
 ```
 Quiz Structure:
@@ -170,7 +332,7 @@ Quiz Structure:
 - Time limit: 30 minutes
 ```
 
-#### Mock Interview (Week 12)
+### Mock Interview (Week 12)
 
 Simulated technical interview:
 
@@ -183,9 +345,9 @@ Interview Structure:
 - Passing score: 70%
 ```
 
-#### Timed Exam (Week 12)
+### Timed Exam (Week 12)
 
-Comprehensive exam covering all topics:
+Comprehensive exam:
 
 ```
 Exam Structure:
@@ -196,22 +358,20 @@ Exam Structure:
 - Passing score: 75%
 ```
 
-### Certify Phase
+## Certification
 
-**Goal:** Award certification upon successful completion.
-
-#### Certification Requirements
+### Requirements
 
 ```
 ✓ Complete all 12 weeks
-✓ Pass all topic quizzes (80%+)
+✓ Pass all weekly quizzes (80%+)
 ✓ Pass mock interview (70%+)
 ✓ Pass timed exam (75%+)
 ✓ Submit capstone project
 ✓ Capstone reviewed and approved
 ```
 
-#### Certificate
+### Certificate
 
 Digital certificate with:
 - Learner name
@@ -221,11 +381,9 @@ Digital certificate with:
 - Verification URL
 - QR code
 
-### Portfolio Phase
+## Portfolio
 
-**Goal:** Create shareable artifacts for career advancement.
-
-#### Portfolio Items
+### Items
 
 ```
 ✓ GitHub repository with all projects
@@ -236,7 +394,7 @@ Digital certificate with:
 ✓ LinkedIn certificate sharing
 ```
 
-#### Portfolio Template
+### Template
 
 Pre-built template for learners:
 - GitHub profile README
@@ -268,49 +426,6 @@ Capstone Completion: > 70%
 Portfolio Creation Rate: > 60%
 Average Learning Time: < 120 hours
 ```
-
-## Technical Requirements
-
-### Platform Integration
-
-- Built on AEL Reference Framework
-- Uses existing plugins (Quiz, etc.)
-- New plugins: Exercise, Challenge, Project, Interview, Certification, Portfolio
-- Data stored in JSON/Markdown
-- No server required (static deployment)
-
-### Content Format
-
-```
-llm-engineering/
-├── reference/          # Existing LLM reference
-├── exercises/          # Exercise definitions
-├── challenges/         # Challenge definitions
-├── projects/           # Project templates
-├── quizzes/            # Quiz data
-├── interviews/         # Interview questions
-├── curriculum/         # Weekly structure
-├── portfolio/          # Portfolio templates
-└── certification/      # Certificate templates
-```
-
-## Release Plan
-
-### v1.0.0 (Current)
-
-- LLM Engineering path only
-- All 6 phases complete
-- Ready for beta testing
-
-### v1.1.0 (Future)
-
-- Terminal Engineering path
-- Improvements based on v1.0 feedback
-
-### v1.2.0 (Future)
-
-- Git Engineering path
-- New plugins based on learner feedback
 
 ## Success Definition
 
