@@ -1,5 +1,7 @@
 # AEL Reference Framework
 
+![AEL Reference Framework](assets/og-image.png)
+
 > A specification-driven framework for building interactive engineering references.
 
 **Specification-Driven. Plugin-First. Data-Driven. Zero Dependencies.**
